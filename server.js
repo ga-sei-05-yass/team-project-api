@@ -7,7 +7,7 @@ const cors = require('cors')
 // require route files
 const exampleRoutes = require('./app/routes/example_routes')
 const userRoutes = require('./app/routes/user_routes')
-const imageRoutes = require('./app/routes/user_routes')
+const imageRoutes = require('./app/routes/image_routes')
 
 // require middleware
 const errorHandler = require('./lib/error_handler')
