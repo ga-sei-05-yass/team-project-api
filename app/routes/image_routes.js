@@ -1,10 +1,10 @@
 const express = require('express')
 const multer = require('multer')
 const storage = multer.memoryStorage()
-const multerUpload = multer({ storage: storage })
+const multerImage = multer({ storage: storage })
 const passport = require('passport')
 
-const Upload = require('../models/image')
+const Image = require('../models/image')
 
 const imageApi = require('../../lib/imageApi')
 
@@ -22,7 +22,7 @@ const router = express.Router()
 
 // INDEX
 router.get('/images', requireToken, (req, res, next) => {
-  Upload.find()
+  Image.find()
     .then(images => {
       return images.map(image => image.toObject())
     })
@@ -32,20 +32,20 @@ router.get('/images', requireToken, (req, res, next) => {
 
 // SHOW
 router.get('/images/:id', requireToken, (req, res, next) => {
-  Upload.findById(req.params.id)
+  Image.findById(req.params.id)
     .then(handle404)
     .then(image => res.status(200).json({ image: image.toObject() }))
     .catch(next)
 })
 
 // CREATE
-router.post('/images', multerUpload.single('file'), requireToken, (req, res, next) => {
+router.post('/images', multerImage.single('file'), requireToken, (req, res, next) => {
   console.log(req.file)
 
   imageApi(req.file)
     .then(awsResponse => {
       console.log(awsResponse)
-      return Upload.create({
+      return Image.create({
         fileName: awsResponse.key,
         fileType: req.file.mimetype,
         owner: req.user.id
@@ -61,7 +61,7 @@ router.post('/images', multerUpload.single('file'), requireToken, (req, res, nex
 router.patch('/images/:id', requireToken, removeBlanks, (req, res, next) => {
   delete req.body.image.owner
 
-  Upload.findById(req.params.id)
+  Image.findById(req.params.id)
     .then(handle404)
     .then(image => {
       requireOwnership(req, image)
@@ -73,7 +73,7 @@ router.patch('/images/:id', requireToken, removeBlanks, (req, res, next) => {
 
 // DESTROY
 router.delete('/images/:id', requireToken, (req, res, next) => {
-  Upload.findById(req.params.id)
+  Image.findById(req.params.id)
     .then(handle404)
     .then(image => {
       requireOwnership(req, image)
