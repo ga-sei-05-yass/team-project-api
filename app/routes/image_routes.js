@@ -58,14 +58,27 @@ router.post('/images', multerImage.single('file'), requireToken, (req, res, next
 })
 
 // UPDATE
-router.patch('/images/:id', requireToken, removeBlanks, (req, res, next) => {
-  delete req.body.image.owner
-
+router.patch('/images/:id', multerImage.single('file'), requireToken, removeBlanks, (req, res, next) => {
+  let storeImage
+// finds the current resource we are trying to edit
   Image.findById(req.params.id)
+  // send error if we didnt find the resource
     .then(handle404)
+    // makes sure they own the resource
     .then(image => {
       requireOwnership(req, image)
-      return image.updateOne(req.body.image)
+      storeImage = image
+      // uploading image to s3
+      return imageApi(req.file)
+
+      // return image.updateOne(req.body.image)
+    })
+    .then(awsResponse => {
+      console.log(awsResponse)
+      return storeImage.updateOne({
+        fileName: awsResponse.key,
+        fileType: req.file.mimetype
+      })
     })
     .then(() => res.sendStatus(204))
     .catch(next)
