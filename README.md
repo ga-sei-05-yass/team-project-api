@@ -31,7 +31,7 @@ For future versions of the API, we want to add a limit for the file size of user
 - Node.js
 
 ### Links
-- [BOS.EATS Deployed Link](https://github.com/ga-sei-05-yass/team-project-client/blob/dev)
+- [BOS.EATS Deployed Link](https://ga-sei-05-yass.github.io/team-project-client/)
 - [BOS.EATS Front End Repo](https://github.com/ga-sei-05-yass/team-project-client)
 - [BOS.EATS Back End Repo](https://github.com/ga-sei-05-yass/team-project-api)
 - [BOS.EATS Heroku Deployed](https://arcane-temple-01908.herokuapp.com/)
