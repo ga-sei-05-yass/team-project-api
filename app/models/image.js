@@ -10,6 +10,14 @@ const imageSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  tag: {
+    type: String,
+    required: true
+  },
+  description: {
+    type: String,
+    required: true
+  },
   owner: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
