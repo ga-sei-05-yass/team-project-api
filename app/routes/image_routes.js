@@ -71,29 +71,45 @@ router.post('/images', multerImage.single('file'), requireToken, (req, res, next
 })
 
 // UPDATE
-router.patch('/images/:id', multerImage.single('file'), requireToken, removeBlanks, (req, res, next) => {
-  let storeImage
-  // finds the current resource we are trying to edit
+// router.patch('/images/:id', multerImage.single('file'), requireToken, removeBlanks, (req, res, next) => {
+//   let storeImage
+//   // finds the current resource we are trying to edit
+//   Image.findById(req.params.id)
+//     // send error if we didnt find the resource
+//     .then(handle404)
+//     // makes sure they own the resource
+//     .then(image => {
+//       requireOwnership(req, image)
+//       // reassigning the image variable so it can be used in the promise
+//       storeImage = image
+//       // uploading image to s3
+//       return imageApi(req.file)
+//     })
+//     .then(awsResponse => {
+//       return storeImage.updateOne({
+//         // using the same fields as 'create', except for owner
+//         // owner does not update
+//         fileName: awsResponse.key,
+//         fileType: req.file.mimetype
+//       })
+//     })
+//     // send a successful response
+//     .then(() => res.sendStatus(204))
+//     .catch(next)
+// })
+
+// PATCH
+router.patch('/images/:id', requireToken, removeBlanks, (req, res, next) => {
+  delete req.body.image.owner
+  console.log(req.params.id)
+
   Image.findById(req.params.id)
-    // send error if we didnt find the resource
     .then(handle404)
-    // makes sure they own the resource
     .then(image => {
       requireOwnership(req, image)
-      // reassigning the image variable so it can be used in the promise
-      storeImage = image
-      // uploading image to s3
-      return imageApi(req.file)
+
+      return image.updateOne(req.body.image)
     })
-    .then(awsResponse => {
-      return storeImage.updateOne({
-        // using the same fields as 'create', except for owner
-        // owner does not update
-        fileName: awsResponse.key,
-        fileType: req.file.mimetype
-      })
-    })
-    // send a successful response
     .then(() => res.sendStatus(204))
     .catch(next)
 })
