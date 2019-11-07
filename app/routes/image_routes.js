@@ -25,7 +25,7 @@ const requireToken = passport.authenticate('bearer', {
 const router = express.Router()
 
 // INDEX
-router.get('/images', requireToken, (req, res, next) => {
+router.get('/images', (req, res, next) => {
   Image.find()
     .then(images => {
       return images.map(image => image.toObject())
