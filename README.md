@@ -36,7 +36,9 @@ For future versions of the API, we want to add a limit for the file size of user
 - [BOS.EATS Back End Repo](https://github.com/ga-sei-05-yass/team-project-api)
 - [BOS.EATS Heroku Deployed](https://arcane-temple-01908.herokuapp.com/)
 
-
+### Wireframes:
+![img_9526](https://media.git.generalassemb.ly/user/23009/files/6f6b2600-ffb4-11e9-912b-7effccd94ad3)
+![img_7999](https://media.git.generalassemb.ly/user/23009/files/71cd8000-ffb4-11e9-8fca-0eada1ea3399)
 
 #### ERD
 ![ERD](https://i.imgur.com/k0MEUj7.png)
